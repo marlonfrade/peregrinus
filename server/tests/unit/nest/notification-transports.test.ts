@@ -240,7 +240,7 @@ describe('buildEmailHtml', () => {
     // Gmail strips data: URIs and Outlook blocks them, which left a broken image
     // in the header of every mail.
     expect(html).not.toContain('data:');
-    expect(html).toMatch(/<img src="cid:[^"]+" alt="TREK" width="48" height="48"/);
+    expect(html).toMatch(new RegExp(`<img src="cid:[^"]+" alt="${BRAND.name}" width="48" height="48"`));
   });
 });
 

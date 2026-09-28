@@ -3,6 +3,7 @@ import type { EventText, PasswordResetStrings } from '@trek/shared/i18n/external
 import { getAppUrl } from '../../../app-config';
 import type { NotifEventType } from '../notification-events';
 import { EMAIL_LOGO_CID } from './email-logo';
+import { BRAND, BRAND_COLORS } from '@trek/shared'; // peregrinus: brand
 
 /**
  * Pure rendering for outgoing mail: the shell, the CTA and the password-reset
@@ -52,10 +53,9 @@ export function buildEmailHtml(
     <tr><td align="center">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 480px; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
         <!-- Header -->
-        <tr><td style="background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%); padding: 32px 32px 28px; text-align: center;">
-          <img src="cid:${EMAIL_LOGO_CID}" alt="TREK" width="48" height="48" style="border-radius: 14px; margin-bottom: 14px; display: block; margin-left: auto; margin-right: auto;" />
-          <div style="color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">TREK</div>
-          <div style="color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;">Travel Resource &amp; Exploration Kit</div>
+        <tr><td style="background: linear-gradient(135deg, ${BRAND_COLORS.petrolDeep} 0%, ${BRAND_COLORS.petrol} 100%); padding: 32px 32px 28px; text-align: center;">
+          <img src="cid:${EMAIL_LOGO_CID}" alt="${BRAND.name}" width="48" height="48" style="border-radius: 14px; margin-bottom: 14px; display: block; margin-left: auto; margin-right: auto;" />
+          <div style="color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">${BRAND.name}</div>
         </td></tr>
         <!-- Content -->
         <tr><td style="padding: 32px 32px 16px;">
@@ -74,7 +74,7 @@ export function buildEmailHtml(
         <!-- Footer -->
         <tr><td style="padding: 20px 32px; background: #f9fafb; border-top: 1px solid #f3f4f6; text-align: center;">
           <p style="margin: 0 0 8px; font-size: 11px; color: #9ca3af; line-height: 1.5;">${s.footer}<br>${s.manage}</p>
-          <p style="margin: 0; font-size: 10px; color: #d1d5db;">${s.madeWith} <span style="color: #ef4444;">&hearts;</span> by Maurice &middot; <a href="https://github.com/liketrek/TREK" style="color: #9ca3af; text-decoration: none;">GitHub</a></p>
+          <p style="margin: 0; font-size: 10px; color: #9ca3af;"><a href="${BRAND.repoUrl}" style="color: #9ca3af; text-decoration: none;">${BRAND.name}</a> &middot; based on <a href="${BRAND.upstream.url}" style="color: #9ca3af; text-decoration: none;">TREK</a> (AGPL-3.0)</p>
         </td></tr>
       </table>
     </td></tr>

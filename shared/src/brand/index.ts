@@ -48,3 +48,4 @@ const CREDITS: Record<string, BrandCredit> = {
 export function brandCredit(language: string): BrandCredit {
   return CREDITS[language] ?? CREDIT_EN;
 }
+export * from './mark';
