@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '../../../tests/helpers/render';
 import ErrorBoundary, { RootErrorFallback } from './ErrorBoundary';
 import * as chunkReload from '../../utils/chunkReload';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 // Only the Reload button's way out is replaced; the boundary's own automatic reload
 // (reloadOnceForChunk) keeps running the real code.
@@ -214,7 +215,7 @@ describe('RootErrorFallback', () => {
     render(<RootErrorFallback error={new Error('boot failed')} reset={() => {}} isChunkError={false} />);
     // If it called t() and the provider was the thing that broke, the user would
     // be reading "common.errorTitle".
-    expect(screen.getByText('TREK could not start')).toBeInTheDocument();
+    expect(screen.getByText(`${BRAND.name} could not start`)).toBeInTheDocument();
     expect(screen.getByText('boot failed')).toBeInTheDocument();
   });
 

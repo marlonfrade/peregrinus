@@ -2,6 +2,7 @@ import React from 'react'
 import { AlertTriangle, RefreshCw, RotateCcw } from 'lucide-react'
 import { useTranslation } from '../../i18n'
 import { isChunkLoadError, reloadOnceForChunk, reloadOntoCurrentBuild } from '../../utils/chunkReload'
+import { BRAND } from '@trek/shared'
 
 /**
  * The app had none of these, so a single throw during render unmounted the whole
@@ -201,11 +202,11 @@ export function RootErrorFallback({ error, isChunkError }: FallbackState) {
     >
       <AlertTriangle size={24} className="text-content-muted" aria-hidden />
       <p className="text-subtitle font-semibold text-content">
-        {isChunkError ? 'A new version is available' : 'TREK could not start'}
+        {isChunkError ? 'A new version is available' : `${BRAND.name} could not start`}
       </p>
       <p className="text-body text-content-secondary">
         {isChunkError
-          ? 'TREK was updated while this tab was open. Reload to get the new version.'
+          ? `${BRAND.name} was updated while this tab was open. Reload to get the new version.`
           : 'Reloading usually fixes this. Your data is safe.'}
       </p>
       {message && <code className="max-w-full truncate text-caption text-content-faint">{message}</code>}

@@ -8,6 +8,7 @@ import { useSettingsStore } from '../../store/settingsStore';
 import { useAddonStore } from '../../store/addonStore';
 import { ToastContainer } from '../shared/Toast';
 import AddonManager from './AddonManager';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 function buildAddon(overrides = {}) {
   return {
@@ -269,7 +270,7 @@ describe('AddonManager', () => {
     render(<AddonManager />);
 
     await screen.findByText('No addons available');
-    expect(screen.getByAltText('TREK')).toHaveAttribute('src', '/text-light.svg');
+    expect(screen.getByAltText(BRAND.name)).toHaveAttribute('src', '/text-light.svg');
   });
 
   it('FE-ADMIN-ADDON-014: photo-flavoured trip addons are hidden from the trip section', async () => {

@@ -2,6 +2,7 @@ import { Bug, BookOpen, Coffee, ExternalLink, Heart, Info, Lightbulb } from 'luc
 import type { LucideIcon } from 'lucide-react'
 import { useTranslation } from '../../../i18n'
 import { MSetCard } from './MSettingsUi'
+import { BRAND } from '@trek/shared'
 
 interface AboutLink {
   href: string
@@ -18,8 +19,8 @@ export default function MSettingsAbout({ appVersion }: { appVersion: string }) {
     { href: 'https://ko-fi.com/mauriceboe', icon: Coffee, title: 'Ko-fi', sub: t('admin.github.support') },
     { href: 'https://buymeacoffee.com/mauriceboe', icon: Heart, title: 'Buy Me a Coffee', sub: t('admin.github.support') },
     { href: 'https://discord.gg/NhZBDSd4qW', icon: Heart, title: 'Discord', sub: 'Join the community' },
-    { href: 'https://github.com/mauriceboe/TREK/issues/new?template=bug_report.yml', icon: Bug, title: t('settings.about.reportBug'), sub: t('settings.about.reportBugHint') },
-    { href: 'https://github.com/mauriceboe/TREK/discussions/new?category=feature-requests', icon: Lightbulb, title: t('settings.about.featureRequest'), sub: t('settings.about.featureRequestHint') },
+    { href: `${BRAND.repoUrl}/issues/new`, icon: Bug, title: t('settings.about.reportBug'), sub: t('settings.about.reportBugHint') },
+    { href: `${BRAND.repoUrl}/discussions`, icon: Lightbulb, title: t('settings.about.featureRequest'), sub: t('settings.about.featureRequestHint') },
     { href: 'https://github.com/mauriceboe/TREK/wiki', icon: BookOpen, title: 'Wiki', sub: t('settings.about.wikiHint') },
   ]
 

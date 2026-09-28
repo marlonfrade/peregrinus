@@ -68,6 +68,7 @@ vi.mock('../hooks/useIsMobile', () => ({
 }));
 
 import JourneyPublicPage from './JourneyPublicPage';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 // ── Fixtures ─────────────────────────────────────────────────────────────────
 
@@ -220,7 +221,7 @@ describe('JourneyPublicPage', () => {
       expect(screen.getByText('Tokyo 2026')).toBeInTheDocument();
     });
     // Footer shows "TREK" brand and "Made with" text
-    expect(screen.getByText('TREK')).toBeInTheDocument();
+    expect(screen.getByText(BRAND.name)).toBeInTheDocument();
     expect(screen.getByText(/Made with/)).toBeInTheDocument();
     expect(screen.getByText('GitHub')).toBeInTheDocument();
   });

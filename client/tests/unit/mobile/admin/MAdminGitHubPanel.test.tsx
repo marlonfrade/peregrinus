@@ -6,6 +6,7 @@ import { render, screen, waitFor } from '../../../helpers/render';
 import { server } from '../../../helpers/msw/server';
 import { resetAllStores } from '../../../helpers/store';
 import MAdminGitHubPanel from '../../../../src/mobile/screens/admin/MAdminGitHubPanel';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 interface ReleaseOverrides {
   id?: number;
@@ -102,10 +103,10 @@ describe('MAdminGitHubPanel', () => {
     await renderPanel();
 
     expect(screen.getByText('Release History')).toBeInTheDocument();
-    expect(screen.getByText('Latest updates from mauriceboe/TREK')).toBeInTheDocument();
+    expect(screen.getByText(`Latest updates from ${BRAND.repoSlug}`)).toBeInTheDocument();
     expect(screen.getByText('GitHub').closest('a')).toHaveAttribute(
       'href',
-      'https://github.com/mauriceboe/TREK/releases',
+      `${BRAND.repoUrl}/releases`,
     );
   });
 

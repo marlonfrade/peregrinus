@@ -11,6 +11,7 @@ import { resetAllStores, seedStore } from '../../tests/helpers/store';
 import { useSettingsStore } from '../store/settingsStore';
 import LoginPage from './LoginPage';
 import { useLogin } from './login/useLogin';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 vi.mock('./login/useLogin', () => ({ useLogin: vi.fn() }));
 vi.mock('./login/LoginWorld', () => ({
@@ -110,7 +111,7 @@ describe('LoginPage — takeoff', () => {
 
     expect(document.querySelector('.takeoff-overlay')).toBeInTheDocument();
     expect(screen.getByTestId('login-world')).toHaveAttribute('data-variant', 'takeoff');
-    expect(screen.getByAltText('TREK')).toHaveAttribute('src', '/logo-light.svg');
+    expect(screen.getByAltText(BRAND.name)).toHaveAttribute('src', '/logo-light.svg');
     expect(screen.queryByPlaceholderText(EMAIL_PLACEHOLDER)).toBeNull();
   });
 });

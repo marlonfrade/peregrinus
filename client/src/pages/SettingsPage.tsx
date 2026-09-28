@@ -14,6 +14,7 @@ import OfflineTab from '../components/Settings/OfflineTab'
 import PluginSettingsTab from '../components/Settings/PluginSettingsTab'
 import { usePluginStore } from '../store/pluginStore'
 import { useSettings } from './settings/useSettings'
+import { BRAND } from '@trek/shared'
 
 export default function SettingsPage(): React.ReactElement {
   // ViewportRoute in App.tsx picks the branch now, so the phone screen is a
@@ -75,7 +76,7 @@ function SettingsPageDesktop(): React.ReactElement {
                   // No About tab here, so this is the prominent source offer
                   // AGPL §13 asks for when people use it over a network.
                   ? <a
-                      href="https://github.com/liketrek/TREK"
+                      href={BRAND.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="no-underline text-content-faint hover:text-content-secondary"
