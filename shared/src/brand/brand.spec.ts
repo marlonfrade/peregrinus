@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest';
 import { BRAND, applyBrand, applyBrandToStrings, brandCredit } from './index';
+
+import { describe, expect, it } from 'vitest';
 
 describe('applyBrand', () => {
   it('replaces the whole word TREK', () => {

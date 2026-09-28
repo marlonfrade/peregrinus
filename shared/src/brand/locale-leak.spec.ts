@@ -3,8 +3,6 @@
  * tables with applyBrandToStrings (TranslationContext), so this is exactly
  * what a user can see.
  */
-import { describe, expect, it } from 'vitest';
-import { applyBrandToStrings } from './index';
 import ar from '../i18n/ar';
 import br from '../i18n/br';
 import ca from '../i18n/ca';
@@ -28,8 +26,35 @@ import uk from '../i18n/uk';
 import vi from '../i18n/vi';
 import zh from '../i18n/zh';
 import zhTW from '../i18n/zh-TW';
+import { applyBrandToStrings } from './index';
 
-const LOCALES = { ar, br, ca, cs, de, en, es, fr, gr, hu, id, it: it_, ja, ko, nl, pl, ru, sv, tr, uk, vi, zh, 'zh-TW': zhTW };
+import { describe, expect, it } from 'vitest';
+
+const LOCALES = {
+  ar,
+  br,
+  ca,
+  cs,
+  de,
+  en,
+  es,
+  fr,
+  gr,
+  hu,
+  id,
+  it: it_,
+  ja,
+  ko,
+  nl,
+  pl,
+  ru,
+  sv,
+  tr,
+  uk,
+  vi,
+  zh,
+  'zh-TW': zhTW,
+};
 
 describe('branded UI locales', () => {
   it('covers all 23 languages', () => {

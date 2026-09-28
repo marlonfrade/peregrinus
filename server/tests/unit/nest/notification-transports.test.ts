@@ -216,21 +216,22 @@ describe('buildEmailHtml', () => {
     expect(html).toContain('Hello world, this is the body!');
   });
 
+  // peregrinus: notification locales are branded (shared/src/brand/notifications.ts)
   it('uses English i18n strings for lang=en', () => {
     const html = buildEmailHtml('Subject', 'Body', 'en');
-    expect(html).toContain('notifications enabled in TREK');
+    expect(html).toContain('notifications enabled in Peregrinus');
   });
 
   it('uses German i18n strings for lang=de', () => {
     const html = buildEmailHtml('Subject', 'Body', 'de');
-    expect(html).toContain('TREK aktiviert');
+    expect(html).toContain('Peregrinus aktiviert');
   });
 
   it('falls back to English i18n for unknown language', () => {
     const en = buildEmailHtml('Subject', 'Body', 'en');
     const unknown = buildEmailHtml('Subject', 'Body', 'xx');
     // Both should have the same footer text
-    expect(unknown).toContain('notifications enabled in TREK');
+    expect(unknown).toContain('notifications enabled in Peregrinus');
   });
 
   it('points the header logo at an inline part by Content-ID, not at a data: URI (#2507)', () => {

@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
-import { brandEventFn, brandNotificationLocale } from './notifications';
 import { EMAIL_I18N, EVENT_TEXTS, PASSWORD_RESET_I18N } from '../i18n/externalNotifications';
+import { brandEventFn, brandNotificationLocale } from './notifications';
+
+import { describe, expect, it } from 'vitest';
 
 describe('brandEventFn', () => {
   const fn = (p: Record<string, string>) => ({
@@ -26,7 +27,14 @@ describe('brandNotificationLocale', () => {
     const loc = brandNotificationLocale({
       email: { footer: 'enabled in TREK.', manage: 'm', madeWith: 'w', openTrek: 'Open TREK' },
       events: {} as never,
-      passwordReset: { subject: 'Reset your TREK password', greeting: 'g', body: 'b', ctaIntro: 'c', expiry: 'e', ignore: 'i' },
+      passwordReset: {
+        subject: 'Reset your TREK password',
+        greeting: 'g',
+        body: 'b',
+        ctaIntro: 'c',
+        expiry: 'e',
+        ignore: 'i',
+      },
     });
     expect(loc.email.openTrek).toBe('Open Peregrinus');
     expect(loc.passwordReset.subject).toBe('Reset your Peregrinus password');
@@ -43,8 +51,24 @@ describe('externalNotifications exports are branded', () => {
   it('no locale leaks TREK in event texts', () => {
     // Every p.<name> read by shared/src/i18n/en/externalNotifications.ts.
     const params = {
-      actor: 'A', backend: 'B', body: 'Y', booking: 'K', category: 'C', count: '2', due: 'D', error: 'E', invitee: 'I',
-      key: 'k', op: 'o', preview: 'P', suppressed: '0', title: 'X', todo: 'T', trip: 'T', type: 't', version: '1',
+      actor: 'A',
+      backend: 'B',
+      body: 'Y',
+      booking: 'K',
+      category: 'C',
+      count: '2',
+      due: 'D',
+      error: 'E',
+      invitee: 'I',
+      key: 'k',
+      op: 'o',
+      preview: 'P',
+      suppressed: '0',
+      title: 'X',
+      todo: 'T',
+      trip: 'T',
+      type: 't',
+      version: '1',
     };
     for (const [lang, events] of Object.entries(EVENT_TEXTS)) {
       for (const [key, fn] of Object.entries(events)) {
