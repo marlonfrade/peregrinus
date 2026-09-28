@@ -4,6 +4,7 @@ import { render, screen } from '../../../tests/helpers/render'
 import userEvent from '@testing-library/user-event'
 import { ReleaseNoticeModal } from './ReleaseNoticeModal'
 import type { SystemNoticeDTO } from '../../store/systemNoticeStore'
+import { BRAND } from '@trek/shared'
 
 /** A notice shaped like the release-notes registry entry, with the pieces a test needs to vary. */
 function releaseNotice(overrides: Partial<SystemNoticeDTO> = {}): SystemNoticeDTO {
@@ -206,8 +207,8 @@ describe('ReleaseNoticeModal', () => {
     expect(wide.querySelector('.rn-vis-docs')).not.toBeNull()
     expect(wide.querySelectorAll('.rn-vis-docs-store')).toHaveLength(5)
     expect(wide.querySelector('.trek-mark .pill-bg')).toBeNull()
-    // The places card keeps the pill: that one is about the index.
-    expect(cards[0].querySelector('.trek-mark .pill-bg')).not.toBeNull()
+    // peregrinus: TrekMark is compass + name with no pill; the places card shows the brand.
+    expect(cards[0].querySelector('.rn-vis-trekmark')?.textContent).toBe(BRAND.name)
   })
 
   it('FE-RN-016: the close button belongs to the panel, not the note', () => {
