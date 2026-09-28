@@ -4,6 +4,7 @@ import { decrypt_api_key } from '../../common/crypto/apiKeyCrypto';
 import { DatabaseService } from '../../database/database.service';
 import { safeFetchFollow, SsrfBlockedError } from '../../../utils/ssrfGuard';
 import type { NotifEventType } from '../notification-events';
+import { BRAND } from '@trek/shared';
 
 export interface NtfyConfig {
   server: string | null;
@@ -204,7 +205,7 @@ export class NtfyService {
       const sent = await this.sendNtfy(url, cfg.token ?? null, {
         event: 'test',
         title: 'Test Notification',
-        body: 'This is a test notification from TREK. If you received this, your ntfy configuration is working correctly.',
+        body: `This is a test notification from ${BRAND.name}. If you received this, your ntfy configuration is working correctly.`,
       });
       return sent ? { success: true } : { success: false, error: 'Failed to send ntfy notification' };
     } catch (err) {

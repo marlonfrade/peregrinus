@@ -56,6 +56,7 @@ import { SessionRenewalInterceptor } from '../../src/nest/auth/session-renewal.i
 import { DatabaseModule } from '../../src/nest/database/database.module';
 import { TrekExceptionFilter } from '../../src/nest/common/trek-exception.filter';
 import { ZodValidationPipe } from '../../src/nest/common/zod-validation.pipe';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 describe('Auth e2e (real auth guard + real service + real cookie service + temp SQLite)', () => {
   let server: Server;
@@ -357,7 +358,7 @@ describe('Auth e2e (real auth guard + real service + real cookie service + temp 
         .set('Cookie', sessionCookie(userId))
         .send({ password: userPassword });
       expect(bare.status).toBe(200);
-      expect(bare.body.rp).toEqual({ name: 'TREK', id: 'localhost' });
+      expect(bare.body.rp).toEqual({ name: BRAND.name, id: 'localhost' });
 
       const local = await request(server)
         .post('/api/auth/passkey/register/options')

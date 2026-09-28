@@ -59,6 +59,7 @@ const sendWebhook = webhookSvc.sendWebhook.bind(webhookSvc);
 const sendNtfy = ntfySvc.sendNtfy.bind(ntfySvc);
 import { checkSsrf } from '../../../src/utils/ssrfGuard';
 import { logError } from '../../../src/nest/audit/audit-log.logger';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 afterEach(() => {
   vi.unstubAllEnvs();
@@ -161,7 +162,7 @@ describe('buildWebhookBody', () => {
   it('Discord embed footer defaults to TREK when no trip name', () => {
     const noTrip = { ...payload, tripName: undefined };
     const body = JSON.parse(buildWebhookBody('https://discord.com/api/webhooks/123/abc', noTrip));
-    expect(body.embeds[0].footer.text).toBe('TREK');
+    expect(body.embeds[0].footer.text).toBe(BRAND.name);
   });
 
   it('discordapp.com URL is also detected as Discord', () => {
@@ -194,7 +195,7 @@ describe('buildWebhookBody', () => {
     expect(body).toHaveProperty('title', payload.title);
     expect(body).toHaveProperty('body', payload.body);
     expect(body).toHaveProperty('timestamp');
-    expect(body).toHaveProperty('source', 'TREK');
+    expect(body).toHaveProperty('source', BRAND.name);
   });
 });
 

@@ -8,6 +8,7 @@ import { DatabaseService } from '../../database/database.service';
 import { buildEmailHtml, buildPasswordResetHtml } from './email-html';
 import { emailLogoAttachment } from './email-logo';
 import { describeSmtpFailure, describeSmtpGap, parseSmtpPort, type SmtpTarget } from './smtp-diagnostics';
+import { BRAND } from '@trek/shared';
 
 interface SmtpConfig {
   host: string;
@@ -186,7 +187,7 @@ export class MailerService {
       await this.createTransport(smtpCfg).sendMail({
         from: smtpCfg.from,
         to,
-        subject: `TREK — ${strings.subject}`,
+        subject: `${BRAND.name} — ${strings.subject}`,
         text: `${strings.greeting}, ${to}\n\n${strings.body}\n\n${strings.ctaIntro}: ${resetUrl}\n\n${strings.expiry}\n${strings.ignore}`,
         html: buildPasswordResetHtml(strings.subject, strings, to, resetUrl, lang),
         attachments: [emailLogoAttachment()],
@@ -215,7 +216,7 @@ export class MailerService {
       await this.createTransport(config).sendMail({
         from: config.from,
         to,
-        subject: `TREK — ${subject}`,
+        subject: `${BRAND.name} — ${subject}`,
         text: body,
         html: buildEmailHtml(subject, body, lang, navigateTarget),
         attachments: [emailLogoAttachment()],
@@ -248,8 +249,8 @@ export class MailerService {
       await this.createTransport(config, TEST_SOCKET_TIMEOUT_MS).sendMail({
         from: config.from,
         to,
-        subject: 'TREK — Test Notification',
-        text: 'This is a test email from TREK. If you received this, your SMTP configuration is working correctly.',
+        subject: `${BRAND.name} — Test Notification`,
+        text: `This is a test email from ${BRAND.name}. If you received this, your SMTP configuration is working correctly.`,
       });
       logInfo(`SMTP test email sent to=${to} ${this.describeTarget(config)}`);
       return { success: true };
