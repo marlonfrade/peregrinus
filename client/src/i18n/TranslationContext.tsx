@@ -14,8 +14,18 @@ import {
 import type { TranslationStrings } from '@trek/shared/i18n'
 
 // peregrinus: locale tables are branded once when loaded, never per t() call,
-// so interpolated user values are never rewritten.
-const brandedEn = applyBrandToStrings(en)
+// so interpolated user values are never rewritten. Cached per source table so
+// re-loading the table already shown keeps the same object (and a stable t()).
+const brandedTables = new WeakMap<TranslationStrings, TranslationStrings>()
+function brandTable(table: TranslationStrings): TranslationStrings {
+  let branded = brandedTables.get(table)
+  if (!branded) {
+    branded = applyBrandToStrings(table)
+    brandedTables.set(table, branded)
+  }
+  return branded
+}
+const brandedEn = brandTable(en)
 
 export { SUPPORTED_LANGUAGES }
 
@@ -124,7 +134,7 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
 
     let cancelled = false
     loader().then(mod => {
-      if (!cancelled) setStrings(applyBrandToStrings(mod.default))
+      if (!cancelled) setStrings(brandTable(mod.default))
     }).catch(err => {
       // The locale chunk can be gone after a deploy. Keep the strings we have —
       // an untranslated UI beats an unhandled rejection and a blank screen.

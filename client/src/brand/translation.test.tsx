@@ -38,4 +38,17 @@ describe('branded translations', () => {
       'TREK Bot wants access to your Peregrinus account. Please sign in first.',
     )
   })
+
+  it('keeps t stable when the active locale chunk resolves to the table it already shows', async () => {
+    setLanguage('en')
+    const seen: unknown[] = []
+    function Capture() {
+      const { t } = useTranslation()
+      seen.push(t)
+      return null
+    }
+    render(<TranslationProvider><Capture /></TranslationProvider>)
+    await act(async () => { await new Promise((r) => setTimeout(r, 50)) })
+    expect(new Set(seen).size).toBe(1)
+  })
 })

@@ -13,10 +13,12 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import en from '@trek/shared/i18n/en'
+import { applyBrand } from '@trek/shared'
 import { act, render, screen, within, fireEvent, waitFor } from '../../../../tests/helpers/render'
 
 /** What the dialog actually renders for a key, via the same fallback chain `t()` uses. */
-const t = (key: string): string => (en as unknown as Record<string, string>)[key] ?? key
+// peregrinus: the UI brands locale tables on load, so expected text is branded too
+const t = (key: string): string => applyBrand((en as unknown as Record<string, string>)[key] ?? key)
 
 const providers = vi.fn()
 const listConnections = vi.fn()
@@ -88,7 +90,7 @@ const link = (id: number, providerId: string, overrides: Partial<DocSyncLink> = 
   providerId,
   scopeKey: `scope-${id}`,
   remoteLabel: `Folder ${id}`,
-  remoteRootPath: `/TREK/folder-${id}`,
+  remoteRootPath: `/Peregrinus/folder-${id}`,
   direction: 'both',
   deletePolicy: 'unlink',
   conflictPolicy: 'manual',
