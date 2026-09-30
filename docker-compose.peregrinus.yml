@@ -17,7 +17,8 @@ services:
     tmpfs:
       - /tmp:noexec,nosuid,size=128m
     ports:
-      - "${PEREGRINUS_PORT:-3000}:3000"
+      # Host 3200 by default so Domus can run Nummus on :3000 at the same time.
+      - "${PEREGRINUS_PORT:-3200}:3000"
     env_file: .env
     environment:
       - NODE_ENV=production
@@ -25,7 +26,14 @@ services:
       - ENCRYPTION_KEY=${ENCRYPTION_KEY:-}
       - TZ=${TZ:-UTC}
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3200}
+      # Host-facing URL (UI). Inside the container PORT is still 3000.
+      - APP_URL=http://localhost:${PEREGRINUS_PORT:-3200}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - COOKIE_SECURE=${COOKIE_SECURE:-false}
+      - DEFAULT_LANGUAGE=${DEFAULT_LANGUAGE:-br}
+      - TREK_PLACES_ENABLED=${TREK_PLACES_ENABLED:-false}
     volumes:
       - ./data:/app/data
       - ./uploads:/app/uploads

@@ -36,7 +36,6 @@
   "server/src/db/document-provider-seed.ts\t/TREK",
   "server/src/db/seeds.ts\t║ TREK — First Run: Admin Account Created ║",
   "server/src/db/seeds.ts\t║ TREK — OIDC-Only Mode ║",
-  "server/src/index.ts\tTREK API started",
   "server/src/nest/addons/addons.mcp.ts\tReport which optional add-ons are enabled on this TREK instance, which collab sub-features (chat, notes, polls, whatsnext) are switched on, and whether packing bag tracking is on. Only enabled entries are listed, so anything absent is off here. Tools belonging to a disabled add-on are never registered, so call this to tell \"the feature is off on this instance\" apart from \"the tool call failed\", and before promising a user that budget, packing, collab, atlas, vacay, journey or collections will work.",
   "server/src/nest/admin/admin.service.ts\tTREK-Server",
   "server/src/nest/auth/auth.mcp.ts\t⚠️ This MCP connection is authenticated with a static API token (trek_…). Static token authentication will be deprecated in a future version of TREK. Please inform the user that they should migrate to OAuth 2.1 by going to Settings → Integrations → MCP → OAuth Clients in TREK and registering an OAuth 2.1 application for their MCP client.",
