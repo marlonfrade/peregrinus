@@ -34,7 +34,7 @@ export const RETIRED_NOTICE_IDS = [
   'release-4-0-0',
 ] as const;
 
-export const SYSTEM_NOTICES: SystemNotice[] = [
+export const UPSTREAM_SYSTEM_NOTICES: SystemNotice[] = [ // peregrinus: filtered below; exported for upstream's registry tests
   // ── Release notes: what the current release brought, and a note from the maintainer ──
   // One entry for every release. Each big release swaps the copy (the release_notes
   // keys) and the version below, and keeps this id. `recurring: 'per-version'` brings
@@ -188,3 +188,10 @@ export const SYSTEM_NOTICES: SystemNotice[] = [
     minVersion: '3.0.14',
   },
 ];
+
+// peregrinus: drop TREK's release-notes and thank-you notices (they ask readers
+// to fund the upstream maintainer). Everything else ships as upstream wrote it.
+export const PEREGRINUS_HIDDEN_NOTICE_IDS = ['release-notes', 'thank-you-support'] as const;
+export const SYSTEM_NOTICES: SystemNotice[] = UPSTREAM_SYSTEM_NOTICES.filter(
+  (n) => !(PEREGRINUS_HIDDEN_NOTICE_IDS as readonly string[]).includes(n.id),
+);

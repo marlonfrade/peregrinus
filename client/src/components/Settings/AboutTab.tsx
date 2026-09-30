@@ -1,4 +1,5 @@
 import { BookOpen, Bug, Coffee, ExternalLink, Heart, Info, Lightbulb } from 'lucide-react';
+import { BRAND, brandCredit } from '@trek/shared';
 import React from 'react';
 import { useTranslation } from '../../i18n';
 import Section from './Section';
@@ -9,7 +10,7 @@ interface Props {
 }
 
 export default function AboutTab({ appVersion }: Props): React.ReactElement {
-  const { t, locale } = useTranslation();
+  const { t, locale, language } = useTranslation();
   const managed = useAuthStore((s) => s.managed);
 
   return (
@@ -30,18 +31,16 @@ export default function AboutTab({ appVersion }: Props): React.ReactElement {
             wording being watered down for everybody. */}
         {t(managed ? 'settings.about.descriptionManaged' : 'settings.about.description')}
       </p>
+      {/* peregrinus: upstream credit (AGPL-3.0, trademark policy) replaces the maintainer line */}
       <p
         className="text-content-faint"
         style={{ fontSize: 'calc(12px * var(--fs-scale-body, 1))', lineHeight: 1.6, marginBottom: 16 }}
       >
-        {t('settings.about.madeWith')}{' '}
-        <Heart
-          size={11}
-          fill="#991b1b"
-          stroke="#991b1b"
-          style={{ display: 'inline-block', verticalAlign: '-1px', animation: 'heartPulse 1.5s ease-in-out infinite' }}
-        />{' '}
-        {t('settings.about.madeBy')}{' '}
+        {BRAND.name} · {brandCredit(language).basedOn}{' '}
+        <a href={BRAND.upstream.url} target="_blank" rel="noopener noreferrer" className="text-content-faint underline">
+          {BRAND.upstream.name}
+        </a>{' '}
+        ({brandCredit(language).license}){' '}
         <span
           className="bg-surface-tertiary text-content-faint"
           style={{
@@ -65,7 +64,7 @@ export default function AboutTab({ appVersion }: Props): React.ReactElement {
           the source link below stay in both modes: AGPL §13 wants the source
           offered prominently to the people using it over a network, and that is
           not the part being trimmed here. */}
-      {!managed && (<>
+      {!managed && BRAND.upstreamSupportLinks && (<>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <a
           href="https://ko-fi.com/mauriceboe"
@@ -283,20 +282,19 @@ export default function AboutTab({ appVersion }: Props): React.ReactElement {
           offered prominently to whoever uses the software over a network, and a
           customer of a hosted instance is exactly that reader. The support and
           bug-report links go; this does not. */}
-      {managed && (
-        <a
-          href="https://github.com/liketrek/TREK"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-4 overflow-hidden rounded-xl border border-edge bg-surface-card px-5 py-4 no-underline"
-        >
-          <div>
-            <div className="text-sm font-semibold text-content">{t('settings.about.sourceTitle')}</div>
-            <div className="text-xs text-content-faint">{t('settings.about.sourceHint')}</div>
-          </div>
-          <ExternalLink size={14} className="ml-auto flex-shrink-0 text-content-faint" />
-        </a>
-      )}
+      {/* peregrinus: offer the source to every user (AGPL §13) */}
+      <a
+        href={BRAND.repoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4 overflow-hidden rounded-xl border border-edge bg-surface-card px-5 py-4 no-underline"
+      >
+        <div>
+          <div className="text-sm font-semibold text-content">{t('settings.about.sourceTitle')}</div>
+          <div className="text-xs text-content-faint">{t('settings.about.sourceHint')}</div>
+        </div>
+        <ExternalLink size={14} className="ml-auto flex-shrink-0 text-content-faint" />
+      </a>
     </Section>
   );
 }

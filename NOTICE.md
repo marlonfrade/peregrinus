@@ -1,3 +1,18 @@
+# Peregrinus
+
+Peregrinus is a modified version of [TREK](https://github.com/liketrek/TREK),
+licensed under the GNU Affero General Public License v3.0 (see `LICENSE`).
+Modifications by Marlon Frade and contributors, first published 2026-09-28.
+Source code: https://github.com/marlonfrade/peregrinus
+
+"TREK" is a trademark of the TREK project and is used here only to describe the
+origin of this software, as its trademark policy (`TRADEMARKS.md`) permits.
+Peregrinus is not affiliated with or endorsed by the TREK project.
+
+The third-party attributions below are inherited from TREK and still apply.
+
+---
+
 # Third-party data & attributions
 
 TREK bundles and uses third-party data that requires attribution.

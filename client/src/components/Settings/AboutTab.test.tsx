@@ -3,6 +3,13 @@ import { fireEvent, render, screen } from '../../../tests/helpers/render';
 import { resetAllStores } from '../../../tests/helpers/store';
 import AboutTab from './AboutTab';
 
+// peregrinus: the fork hides upstream's support grid (BRAND.upstreamSupportLinks = false);
+// these upstream tests pin that grid, so they run with it switched on.
+vi.mock('@trek/shared', async (importOriginal) => {
+  const mod = await importOriginal<typeof import('@trek/shared')>();
+  return { ...mod, BRAND: { ...mod.BRAND, upstreamSupportLinks: true } };
+});
+
 beforeEach(() => {
   resetAllStores();
   vi.clearAllMocks();
@@ -60,7 +67,8 @@ describe('AboutTab', () => {
   it('FE-COMP-ABOUT-009: all external links have rel="noopener noreferrer"', () => {
     render(<AboutTab appVersion="2.9.10" />);
     const links = document.querySelectorAll('a');
-    expect(links).toHaveLength(6);
+    // peregrinus: +2 — the TREK credit link and the always-on source link (AGPL §13).
+    expect(links).toHaveLength(8);
     links.forEach((link) => {
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
     });

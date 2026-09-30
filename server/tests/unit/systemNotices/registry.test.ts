@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import semver from 'semver';
-import { RETIRED_NOTICE_IDS, SYSTEM_NOTICES } from '../../../src/systemNotices/registry.js';
+import { RETIRED_NOTICE_IDS, SYSTEM_NOTICES, UPSTREAM_SYSTEM_NOTICES } from '../../../src/systemNotices/registry.js';
 import { isNoticeVersionActive } from '../../../src/systemNotices/service.js';
 
 /** Collect all actionIds registered via registerNoticeAction() in client source files. */
@@ -66,7 +66,8 @@ describe('registry integrity', () => {
   });
 
   it('the release notes come back on every upgrade, with no upper bound', () => {
-    const release = SYSTEM_NOTICES.find(n => n.id === 'release-notes');
+    // peregrinus: these notices are hidden in the fork; pin upstream's definitions.
+    const release = UPSTREAM_SYSTEM_NOTICES.find(n => n.id === 'release-notes');
     expect(release).toBeDefined();
     // Nothing on 3.x ships this copy, and the thank-you notice still covers it there.
     expect(isNoticeVersionActive(release!, '3.4.1')).toBe(false);
@@ -90,14 +91,15 @@ describe('registry integrity', () => {
   });
 
   it('the thank-you notice hands over to the release modal at 4.0.0', () => {
-    const thankYou = SYSTEM_NOTICES.find(n => n.id === 'thank-you-support');
+    // peregrinus: these notices are hidden in the fork; pin upstream's definitions.
+    const thankYou = UPSTREAM_SYSTEM_NOTICES.find(n => n.id === 'thank-you-support');
     expect(thankYou).toBeDefined();
     // Both carry the same thank-you and the same two support links, so exactly
     // one of them may be active at any version.
     expect(isNoticeVersionActive(thankYou!, '3.4.1')).toBe(true);
     expect(isNoticeVersionActive(thankYou!, '4.0.0')).toBe(false);
 
-    const release = SYSTEM_NOTICES.find(n => n.id === 'release-notes')!;
+    const release = UPSTREAM_SYSTEM_NOTICES.find(n => n.id === 'release-notes')!;
     for (const version of ['3.4.1', '4.0.0', '4.0.7', '4.1.0', '4.3.0', '5.0.0']) {
       const active = [thankYou!, release].filter(n => isNoticeVersionActive(n, version));
       expect(active.length, `thank-you and release notes at ${version}`).toBe(1);
