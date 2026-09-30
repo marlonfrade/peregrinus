@@ -66,7 +66,7 @@
 
 > Creating the GitHub fork is outward-facing. Confirm with the owner before Step 1 if not already confirmed in this session.
 
-- [ ] **Step 1: Create the fork on GitHub without cloning**
+- [x] **Step 1: Create the fork on GitHub without cloning**
 
 ```bash
 gh repo fork liketrek/TREK --fork-name peregrinus --clone=false --default-branch-only
@@ -74,7 +74,7 @@ gh repo view marlonfrade/peregrinus --json name,parent --jq '.name + " <- " + .p
 ```
 Expected: `peregrinus <- liketrek/TREK`
 
-- [ ] **Step 2: Turn the existing folder into the checkout**
+- [x] **Step 2: Turn the existing folder into the checkout**
 
 ```bash
 cd ~/FraDev/fradev-lab/peregrinus
@@ -88,7 +88,7 @@ git status --short               # verify
 ```
 Expected `git status --short` output: exactly `?? docs/superpowers/`.
 
-- [ ] **Step 3: Install and prove the upstream baseline is green**
+- [x] **Step 3: Install and prove the upstream baseline is green**
 
 ```bash
 npm ci
@@ -99,7 +99,7 @@ npm run typecheck --workspace=client
 ```
 Expected: all pass. If anything fails here, stop and report: it is an upstream failure, not ours.
 
-- [ ] **Step 4: Commit docs on `main`, then branch**
+- [x] **Step 4: Commit docs on `main`, then branch**
 
 ```bash
 git add docs/superpowers
@@ -126,7 +126,7 @@ git checkout -b peregrinus/a-rebrand
   - `applyBrandToStrings(dict: TranslationStrings): TranslationStrings`
   - `brandCredit(language: string): { basedOn: string; license: string }`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `shared/src/brand/brand.spec.ts`:
 ```ts
@@ -193,12 +193,12 @@ describe('BRAND', () => {
 });
 ```
 
-- [ ] **Step 2: Run it to verify it fails**
+- [x] **Step 2: Run it to verify it fails**
 
 Run: `cd shared && npx vitest run src/brand/brand.spec.ts`
 Expected: FAIL, `Failed to resolve import "./index"`.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `shared/src/brand/index.ts`:
 ```ts
@@ -258,12 +258,12 @@ Append to `shared/src/index.ts`:
 export * from './brand';
 ```
 
-- [ ] **Step 4: Run tests and typecheck**
+- [x] **Step 4: Run tests and typecheck**
 
 Run: `cd shared && npx vitest run src/brand/brand.spec.ts && npm run typecheck`
 Expected: PASS, no type errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add shared/src/brand shared/src/index.ts
@@ -289,7 +289,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   - `brandNotificationLocale(locale: NotificationLocale): NotificationLocale`
   - `EMAIL_I18N`, `EVENT_TEXTS`, `PASSWORD_RESET_I18N` (same names/types as upstream, now branded)
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 `shared/src/brand/notifications.spec.ts`:
 ```ts
@@ -396,12 +396,12 @@ describe('branded UI locales', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `cd shared && npx vitest run src/brand/`
 Expected: `notifications.spec.ts` FAILS (module missing); `locale-leak.spec.ts` PASSES already (it tests `applyBrandToStrings` from Task 1). If `locale-leak` fails, a locale contains "TREK" glued to a word character (e.g. `TREKs`); report the key before continuing.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `shared/src/brand/notifications.ts`:
 ```ts
@@ -461,7 +461,7 @@ export const EMAIL_I18N: Record<string, EmailStrings> = Object.fromEntries(
 ```
 and in `EVENT_TEXTS` / `PASSWORD_RESET_I18N` replace `Object.entries(LOCALES).map(` with `BRANDED.map(`.
 
-- [ ] **Step 4: Run tests, parity and build**
+- [x] **Step 4: Run tests, parity and build**
 
 Run:
 ```bash
@@ -469,7 +469,7 @@ cd shared && npx vitest run src/brand/ && npm run typecheck && cd .. && npm run 
 ```
 Expected: all PASS. If the event-text test throws on a missing param, add that param name to the `params` object in the test (event functions read `p.<name>`; the list must cover every name used in `shared/src/i18n/en/externalNotifications.ts`, found with `grep -o 'p\.[a-zA-Z]*' shared/src/i18n/en/externalNotifications.ts | sort -u`).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add shared/src/brand shared/src/i18n/externalNotifications/index.ts
@@ -495,7 +495,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   - `collectHits(repoRoot: string): string[]` — sorted `"<path>\t<text>"` entries for `client/src` + `server/src`
   - CLI: `npm run brand:check` (exit 1 on added or stale), `npm run brand:check -- --update`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `shared/src/brand/brand-check.spec.ts`:
 ```ts
@@ -535,12 +535,12 @@ describe('diffBaseline', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `cd shared && npx vitest run src/brand/brand-check.spec.ts`
 Expected: FAIL, cannot resolve `../../scripts/brand-check.mjs`.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `shared/scripts/brand-check.mjs`:
 ```js
@@ -655,7 +655,7 @@ Add to root `package.json` `scripts` (after `"format:check"`):
     "brand:check": "node shared/scripts/brand-check.mjs"
 ```
 
-- [ ] **Step 4: Run tests, generate the baseline, verify**
+- [x] **Step 4: Run tests, generate the baseline, verify**
 
 ```bash
 cd shared && npx vitest run src/brand/brand-check.spec.ts && cd ..
@@ -665,7 +665,7 @@ npm run brand:check            # expected: brand-check: OK (N baselined literals
 ```
 Expected N ≈ 187 (the survey count on upstream v4.3.0; a different upstream head may differ slightly).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add shared/scripts/brand-check.mjs shared/scripts/brand-check.baseline.json shared/src/brand/brand-check.spec.ts package.json
@@ -686,7 +686,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Consumes: `applyBrandToStrings` from `@trek/shared` (Task 1)
 - Produces: `useTranslation().t` / `tHtml` return branded text; params are never branded.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `client/src/brand/translation.test.tsx`:
 ```tsx
@@ -733,12 +733,12 @@ describe('branded translations', () => {
 })
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `cd client && npx vitest run src/brand/translation.test.tsx`
 Expected: FAIL, received `Sign in to TREK`.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 In `client/src/i18n/TranslationContext.tsx`:
 
@@ -764,12 +764,12 @@ const brandedEn = applyBrandToStrings(en)
 4. `if (!cancelled) setStrings(mod.default)` → `if (!cancelled) setStrings(applyBrandToStrings(mod.default))`
 5. In both `t` and `tHtml`: `(strings[key] ?? en[key] ?? key)` → `(strings[key] ?? brandedEn[key] ?? key)`
 
-- [ ] **Step 4: Run tests + typecheck + lint**
+- [x] **Step 4: Run tests + typecheck + lint**
 
 Run: `cd client && npx vitest run src/brand/translation.test.tsx src/i18n && npm run typecheck && npm run lint:check`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add client/src/i18n/TranslationContext.tsx client/src/brand/translation.test.tsx
@@ -798,18 +798,18 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 **Interfaces:**
 - Consumes: `BRAND` from `@trek/shared`
 
-- [ ] **Step 1: Find the upstream tests that pin these literals**
+- [x] **Step 1: Find the upstream tests that pin these literals**
 
 ```bash
 grep -rnE "'TREK'|\"TREK\"|TREK —|from TREK|in TREK|PRODID:-//TREK|TREK Trip|liketrek/TREK/releases" server/tests | cut -c1-160
 ```
 Record the list. These tests currently pass and will fail after Step 3; that failure is the red step for this task.
 
-- [ ] **Step 2: Add `BRAND` imports**
+- [x] **Step 2: Add `BRAND` imports**
 
 In each file listed above, add `import { BRAND } from '@trek/shared';` next to its other imports (if the file already imports from `@trek/shared`, add `BRAND` to that import).
 
-- [ ] **Step 3: Patch the literals**
+- [x] **Step 3: Patch the literals**
 
 | File | Old | New |
 |---|---|---|
@@ -832,7 +832,7 @@ In each file listed above, add `import { BRAND } from '@trek/shared';` next to i
 
 Keep each file's existing quote style for the other code. In `admin.service.ts`, convert the two single-quoted URLs to template literals.
 
-- [ ] **Step 4: Update the upstream assertions, run the suites**
+- [x] **Step 4: Update the upstream assertions, run the suites**
 
 For each test from Step 1 that now fails, change the expected literal to the branded value and import `BRAND` from `@trek/shared` so the test reads `BRAND.name` rather than a copy of it. Example (`passkey.service.test.ts`):
 ```ts
@@ -848,7 +848,7 @@ cd server && npx vitest run $(grep -rlE "'TREK'|\"TREK\"|TREK —|from TREK|in T
 ```
 Expected: PASS.
 
-- [ ] **Step 5: Shrink the baseline**
+- [x] **Step 5: Shrink the baseline**
 
 ```bash
 npm run brand:check              # expected: FAIL listing only STALE entries for the patched literals
@@ -856,7 +856,7 @@ npm run brand:check -- --update
 git diff --stat shared/scripts/brand-check.baseline.json   # expected: deletions only
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add server shared/scripts/brand-check.baseline.json
@@ -883,7 +883,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   - `compassSvg(o: CompassOptions & { size?: number; background?: string; radius?: number }): string` — full SVG document
   - `MASCOT_COMPASS_PATH: string` — single path, 1500×1500 space (mascot body)
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 `shared/src/brand/mark.spec.ts`:
 ```ts
@@ -945,12 +945,12 @@ describe('branded e-mail shell', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `cd shared && npx vitest run src/brand/mark.spec.ts; cd ../server && npx vitest run tests/unit/nest/email-html.brand.test.ts`
 Expected: both FAIL (missing module; `TREK` header present).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `shared/src/brand/mark.ts`:
 ```ts
@@ -1033,7 +1033,7 @@ const MARK_DATA_URI = `data:image/svg+xml;base64,${Buffer.from(
           <p style="margin: 0; font-size: 10px; color: #9ca3af;"><a href="${BRAND.repoUrl}" style="color: #9ca3af; text-decoration: none;">${BRAND.name}</a> &middot; based on <a href="${BRAND.upstream.url}" style="color: #9ca3af; text-decoration: none;">TREK</a> (AGPL-3.0)</p>
 ```
 
-- [ ] **Step 4: Run tests, build, shrink baseline**
+- [x] **Step 4: Run tests, build, shrink baseline**
 
 ```bash
 npm run build --workspace=shared
@@ -1042,7 +1042,7 @@ npm run brand:check   # expected: STALE for the old email header/footer literals
 ```
 The footer's `TREK` link text is the upstream credit (allowed, spec §6.2). Run `npm run brand:check -- --update` and check the diff: the old header/footer entries are removed and one `email-html.ts … TREK (AGPL-3.0)` entry is added.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add shared/src/brand server/src/nest/notifications/mailer/email-html.ts server/tests/unit/nest/email-html.brand.test.ts shared/scripts/brand-check.baseline.json
@@ -1067,7 +1067,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Consumes: `compassMarkup`, `compassSvg`, `BRAND_COLORS`, `MASCOT_COMPASS_PATH`, `BRAND` (from `@trek/shared` / `shared/dist`)
 - Produces: `CompassMark(props: { size?: number; className?: string; title?: string })` default export
 
-- [ ] **Step 1: Write the failing component test**
+- [x] **Step 1: Write the failing component test**
 
 `client/src/brand/CompassMark.test.tsx`:
 ```tsx
@@ -1095,12 +1095,12 @@ describe('brand marks', () => {
 })
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `cd client && npx vitest run src/brand/CompassMark.test.tsx`
 Expected: FAIL, cannot resolve `./CompassMark`.
 
-- [ ] **Step 3: Implement the components**
+- [x] **Step 3: Implement the components**
 
 `client/src/brand/CompassMark.tsx`:
 ```tsx
@@ -1189,7 +1189,7 @@ const MARK = MASCOT_COMPASS_PATH
 ```
 (delete the old multi-line path string; leave the rest of the file untouched)
 
-- [ ] **Step 4: Generate the static SVG assets**
+- [x] **Step 4: Generate the static SVG assets**
 
 `brand-tools/package.json`:
 ```json
@@ -1256,7 +1256,7 @@ node client/scripts/generate-icons.mjs
 ```
 Expected: 9 `✓` lines from brand-tools, then `PWA icons generated.`
 
-- [ ] **Step 5: Point HTML and manifest at the brand**
+- [x] **Step 5: Point HTML and manifest at the brand**
 
 `client/index.html`:
 - `<title>TREK</title>` → `<title>Peregrinus</title> <!-- peregrinus: brand -->`
@@ -1276,7 +1276,7 @@ Expected: 9 `✓` lines from brand-tools, then `PWA icons generated.`
 ```
 (the rest of the manifest is unchanged)
 
-- [ ] **Step 6: Run tests, lint, view the assets**
+- [x] **Step 6: Run tests, lint, view the assets**
 
 ```bash
 cd client && npx vitest run src/brand src/components/shared src/components/Studio src/components/SystemNotices && npm run typecheck && npm run lint:check && cd ..
@@ -1284,7 +1284,7 @@ npm run brand:check    # expected: STALE for TrekMark/StudioWordmark literals �
 ```
 Open `client/public/logo-dark.svg`, `logo-light.svg`, `icons/icon.svg`, `icons/favicon.svg` and `icons/icon-maskable-512x512.png` in the browser pane and compare with the approved mockup (V1 on petrol/teal/coral). The maskable icon's mark must sit inside the central 80% circle.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add brand-tools client/public client/src/brand client/src/components/shared/TrekIcon.tsx client/src/components/shared/TrekMark.tsx client/src/components/Studio/StudioWordmark.tsx client/src/mobile/components/MDancingTrek.tsx client/index.html client/vite.config.js client/package.json package-lock.json shared/scripts/brand-check.baseline.json
@@ -1302,18 +1302,18 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 **Interfaces:**
 - Consumes: `BRAND` from `@trek/shared`
 
-- [ ] **Step 1: Red — find the tests that pin these literals**
+- [x] **Step 1: Red — find the tests that pin these literals**
 
 ```bash
 grep -rnE 'alt="TREK"|"TREK"|TREK could not start|liketrek/TREK|mauriceboe/TREK|TREK MFA' client/src client/tests --include='*.test.*' | cut -c1-160
 ```
 Record the list; these go red after Step 3.
 
-- [ ] **Step 2: Import `BRAND`**
+- [x] **Step 2: Import `BRAND`**
 
 Add `import { BRAND } from '@trek/shared'` to each file above (merge into an existing `@trek/shared` import where present).
 
-- [ ] **Step 3: Patch**
+- [x] **Step 3: Patch**
 
 | Where | Old | New |
 |---|---|---|
@@ -1332,7 +1332,7 @@ Add `import { BRAND } from '@trek/shared'` to each file above (merge into an exi
 
 Wiki links (`…/TREK/wiki…`) stay as they are: they are upstream documentation (spec §4.2 rule).
 
-- [ ] **Step 4: Green — update pinned tests, run**
+- [x] **Step 4: Green — update pinned tests, run**
 
 For each test from Step 1, assert `BRAND.name` / `BRAND.repoUrl` instead of the old literal (import `BRAND` from `@trek/shared`). Then:
 ```bash
@@ -1340,7 +1340,7 @@ cd client && npx vitest run $(grep -rlE 'TREK|GitHubPanel|ErrorBoundary|LoginPag
 npm run brand:check    # expected: STALE only → --update → review: deletions only
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add client shared/scripts/brand-check.baseline.json
@@ -1362,7 +1362,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 **Interfaces:**
 - Produces: CSS custom properties under `:root:not([data-scheme])` / `.dark:not([data-scheme])`; `--font-system`, `--font-subtext`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `client/src/brand/theme.test.ts`:
 ```ts
@@ -1429,12 +1429,12 @@ describe('brand stylesheet scope', () => {
 })
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `cd client && npx vitest run src/brand/theme.test.ts`
 Expected: FAIL, `ENOENT … peregrinus.css`.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `client/src/brand/peregrinus.css`:
 ```css
@@ -1540,14 +1540,14 @@ import './brand/peregrinus.css' // peregrinus: brand theme (must follow index.cs
   { id: 'default', swatch: { light: '#0E7C86', dark: '#FF6B57' } }, // peregrinus: brand accent
 ```
 
-- [ ] **Step 4: Run tests and the theme gates**
+- [x] **Step 4: Run tests and the theme gates**
 
 ```bash
 cd client && npx vitest run src/brand/theme.test.ts src/theme && npm run typecheck && npm run lint:check && npm run theme:lint && cd ..
 ```
 Expected: PASS. `theme:lint` may flag the literals in `peregrinus.css`; if so, add a `/* theme-lint-disable */` line comment per flagged line (brand definitions are the intended exception per upstream `CLAUDE.md`).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add client/src/brand client/src/main.tsx client/src/theme/schemes.ts
@@ -1571,7 +1571,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Consumes: `BRAND`, `brandCredit` (Task 1)
 - Produces: `SYSTEM_NOTICES` (same name/type, filtered); `PEREGRINUS_HIDDEN_NOTICE_IDS: readonly string[]`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 `server/tests/unit/peregrinus-notices.test.ts`:
 ```ts
@@ -1612,12 +1612,12 @@ describe('About tab (AGPL §13 + credits)', () => {
 })
 ```
 
-- [ ] **Step 2: Run to verify failure**
+- [x] **Step 2: Run to verify failure**
 
 Run: `cd server && npx vitest run tests/unit/peregrinus-notices.test.ts; cd ../client && npx vitest run src/brand/about.test.tsx`
 Expected: both FAIL (missing export; ko-fi link present / repo link absent).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `server/src/systemNotices/registry.ts`:
 - change `export const SYSTEM_NOTICES: SystemNotice[] = [` to `const UPSTREAM_SYSTEM_NOTICES: SystemNotice[] = [ // peregrinus: filtered below`
@@ -1686,14 +1686,14 @@ The third-party attributions below are inherited from TREK and still apply.
 
 ```
 
-- [ ] **Step 4: Run tests, gates**
+- [x] **Step 4: Run tests, gates**
 
 ```bash
 cd server && npx vitest run tests/unit/peregrinus-notices.test.ts $(grep -rl "systemNotices\|SYSTEM_NOTICES" tests/unit | tr '\n' ' ') && npm run typecheck && npm run lint:check && cd ../client && npx vitest run src/brand/about.test.tsx $(grep -rl "AboutTab" src tests --include='*.test.*' | tr '\n' ' ') && npm run typecheck && npm run lint:check && cd ..
 npm run brand:check   # AboutTab/registry literals → STALE; the new credit has no "TREK" literal (BRAND.upstream.name). --update, review deletions.
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add client/src/components/Settings/AboutTab.tsx client/src/brand/about.test.tsx server/src/systemNotices/registry.ts server/tests/unit/peregrinus-notices.test.ts NOTICE.md shared/scripts/brand-check.baseline.json
@@ -1710,7 +1710,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Create: `docker-compose.peregrinus.yml`, `.env.example`
 - Modify: `.gitignore`
 
-- [ ] **Step 1: Write the files**
+- [x] **Step 1: Write the files**
 
 `docker-compose.peregrinus.yml`:
 ```yaml
@@ -1756,7 +1756,7 @@ Append to `.gitignore`:
 ```
 (first check with `grep -nE '^/?(data|uploads)/?$|^\.env$' .gitignore` and skip lines upstream already has)
 
-- [ ] **Step 2: Build and boot**
+- [x] **Step 2: Build and boot**
 
 ```bash
 cp .env.example .env && sed -i '' "s/^ENCRYPTION_KEY=$/ENCRYPTION_KEY=$(openssl rand -hex 32)/" .env
@@ -1766,7 +1766,7 @@ curl -fsS http://localhost:3000/api/health || curl -fsSI http://localhost:3000/
 ```
 Expected: logs show the first-run admin banner; the health request succeeds. Use the built-in browser at `http://localhost:3000`: the login page shows the compass logo, "Peregrinus", pt-BR text.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add docker-compose.peregrinus.yml .env.example .gitignore
@@ -1784,7 +1784,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Create: `PEREGRINUS.md`
 - External: GitHub Actions settings; POP; `~/FraDev/fradev-skills/memory/PROJECTS.md`
 
-- [ ] **Step 1: Add the brand gate to CI**
+- [x] **Step 1: Add the brand gate to CI**
 
 In `.github/workflows/test.yml`, job `server-quality`, after the `Build shared` step:
 ```yaml
@@ -1793,7 +1793,7 @@ In `.github/workflows/test.yml`, job `server-quality`, after the `Build shared` 
         run: npm run brand:check
 ```
 
-- [ ] **Step 2: Write `PEREGRINUS.md`**
+- [x] **Step 2: Write `PEREGRINUS.md`**
 
 ```markdown
 # PEREGRINUS.md
@@ -1836,14 +1836,14 @@ gh workflow list --repo marlonfrade/peregrinus --all
 ```
 Expected: the eight show `disabled_manually`; `Tests & SonarQube`, lint and security stay active. (Sonar and MinIO jobs already skip without their secrets.)
 
-- [ ] **Step 4: Full gate run**
+- [x] **Step 4: Full gate run**
 
 ```bash
 npm ci && npm run build && npm run brand:check && npm run test && npm run lint && npm run i18n:parity:strict --workspace=shared && (cd client && npm run lint:pages)
 ```
 Expected: all green.
 
-- [ ] **Step 5: Upstream-sync rehearsal (success criterion 5)**
+- [x] **Step 5: Upstream-sync rehearsal (success criterion 5)**
 
 ```bash
 git fetch upstream
@@ -1854,22 +1854,22 @@ git merge --abort 2>/dev/null; git checkout peregrinus/a-rebrand; git branch -D 
 ```
 Expected: if upstream has moved, conflicting files are only files that carry a `peregrinus:` / `BRAND` patch or a brand asset. Any other conflicting file is a finding: report it.
 
-- [ ] **Step 6: Manual verification in the built-in browser** (image from Task 11, rebuilt: `docker compose -f docker-compose.peregrinus.yml up --build -d`)
+- [x] **Step 6: Manual verification in the built-in browser** (image from Task 11, rebuilt: `docker compose -f docker-compose.peregrinus.yml up --build -d`)
 
 Check each item and record the result in the PR description:
-- [ ] Login page: compass logo, "Peregrinus", pt-BR, favicon is the simplified compass.
+- [x] Login page: compass logo, "Peregrinus", pt-BR, favicon is the simplified compass.
 - [ ] Dashboard + a new trip with two places in a day plan; mascot empty states show the compass body with eyes.
-- [ ] Light/dark toggle: teal accent (light) and coral accent (dark); Familjen Grotesk everywhere.
+- [x] Light/dark toggle: teal accent (light) and coral accent (dark); Familjen Grotesk everywhere.
 - [ ] Settings → Aparência: picking "Indigo" restores upstream colours; back to default restores brand.
-- [ ] Settings → Sobre: source link to `marlonfrade/peregrinus`, TREK credit, no Ko-fi/BMC/Discord.
-- [ ] No donation modal after first login.
+- [x] Settings → Sobre: source link to `marlonfrade/peregrinus`, TREK credit, no Ko-fi/BMC/Discord.
+- [x] No donation modal after first login.
 - [ ] PDF export of the trip: no TREK logo.
 - [ ] Passkey registration prompt names "Peregrinus" (Settings → Conta, if passkeys enabled by admin).
 - [ ] Admin → GitHub panel lists `marlonfrade/peregrinus` releases (empty list is fine).
 - [ ] PWA install from the browser: icon is the compass tile, name "Peregrinus".
-- [ ] Search a place: results come from OpenStreetMap (no network call to `places.liketrek.com` in the browser pane's network log or `docker logs`).
+- [x] Search a place: results come from OpenStreetMap (no network call to `places.liketrek.com` in the browser pane's network log or `docker logs`).
 
-- [ ] **Step 7: Commit, push, open PR into the fork's `main`**
+- [x] **Step 7: Commit, push, open PR into the fork's `main`**
 
 ```bash
 git add .github/workflows/test.yml PEREGRINUS.md
