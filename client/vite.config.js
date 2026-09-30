@@ -236,12 +236,13 @@ export default defineConfig(({ mode }) => ({
           },
         ],
       },
+      // peregrinus: brand
       manifest: {
-        name: 'TREK \u2014 Travel Planner',
-        short_name: 'TREK',
-        description: 'Travel Resource & Exploration Kit',
-        theme_color: '#111827',
-        background_color: '#0f172a',
+        name: 'Peregrinus \u2014 Travel Planner',
+        short_name: 'Peregrinus',
+        description: 'Plan trips together',
+        theme_color: '#0B2E33',
+        background_color: '#071B1E',
         display: 'standalone',
         scope: '/',
         start_url: '/',

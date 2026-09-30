@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { act, render, screen } from '../../../helpers/render'
 import MTripLoadingSplash from '../../../../src/mobile/screens/trip/MTripLoadingSplash'
+import { BRAND } from '@trek/shared' // peregrinus: brand
 
 // FE-MOB-SPLASH-001 to FE-MOB-SPLASH-012
 
@@ -62,7 +63,7 @@ describe('MTripLoadingSplash', () => {
   it('FE-MOB-SPLASH-002: falls back to the TREK wordmark when the trip has no title', () => {
     render(<MTripLoadingSplash title="" />)
 
-    expect(screen.getByText('TREK')).toBeInTheDocument()
+    expect(screen.getByText(BRAND.name)).toBeInTheDocument()
   })
 
   it('FE-MOB-SPLASH-003: walks the four beats in order, one every 1400ms', () => {

@@ -123,7 +123,8 @@ describe('TrekIcon', () => {
     const svg = container.querySelector('svg')
 
     expect(svg).not.toBeNull()
-    expect(svg!.getAttribute('viewBox')).toBe('0 0 512 512')
+    // peregrinus: TrekIcon renders the 64-unit compass mark
+    expect(svg!.getAttribute('viewBox')).toBe('0 0 64 64')
     expect(svg!.querySelectorAll('path[fill="currentColor"]').length).toBeGreaterThan(0)
   })
 

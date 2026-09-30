@@ -37,11 +37,11 @@ const onListen = () => {
   const resolvedAppUrl = getMcpSafeUrl();
   const banner = [
     '──────────────────────────────────────',
-    '  TREK API started',
+    '  Peregrinus API started',
     `  Version         ${APP_VERSION}`,
     ...(HOST ? [`  Host:           ${HOST}`] : []),
-    `  Container Port: ${PORT}`,
-    `  App URL:        ${appUrl}`,
+    `  API port:       ${PORT}  (JSON only — not the UI)`,
+    `  Open the app:   ${appUrl}`,
     `  Environment:    ${env.app.nodeEnv?.toLowerCase() || 'development'}`,
     `  Timezone:       ${tz}`,
     `  Origins:        ${origins}`,

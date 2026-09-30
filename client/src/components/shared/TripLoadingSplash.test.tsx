@@ -8,6 +8,7 @@ vi.mock('../../mobile/components/MDancingTrek', () => ({
 }))
 
 import TripLoadingSplash from './TripLoadingSplash'
+import { BRAND } from '@trek/shared' // peregrinus: brand
 
 function stubReducedMotion(reduce: boolean) {
   Object.defineProperty(window, 'matchMedia', {
@@ -44,8 +45,8 @@ describe('TripLoadingSplash', () => {
   it('FE-W4TLS-002: falls back to the TREK wordmark without a title', () => {
     render(<TripLoadingSplash />)
 
-    expect(screen.getByRole('status')).toHaveAttribute('aria-label', 'TREK')
-    expect(screen.getByText('TREK')).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveAttribute('aria-label', BRAND.name)
+    expect(screen.getByText(BRAND.name)).toBeInTheDocument()
   })
 
   it('FE-W4TLS-003: starts on the packing scene', () => {

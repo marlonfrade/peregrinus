@@ -1,0 +1,46 @@
+# peregrinus: local/VPS run of THIS repository. The upstream docker-compose.yml
+# pulls stock TREK from Docker Hub and is left untouched.
+services:
+  app:
+    build: .
+    image: peregrinus:local
+    container_name: peregrinus
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+    tmpfs:
+      - /tmp:noexec,nosuid,size=128m
+    ports:
+      # Host 3200 by default so Domus can run Nummus on :3000 at the same time.
+      - "${PEREGRINUS_PORT:-3200}:3000"
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:-}
+      - TZ=${TZ:-UTC}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3200}
+      # Host-facing URL (UI). Inside the container PORT is still 3000.
+      - APP_URL=http://localhost:${PEREGRINUS_PORT:-3200}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - COOKIE_SECURE=${COOKIE_SECURE:-false}
+      - DEFAULT_LANGUAGE=${DEFAULT_LANGUAGE:-br}
+      - TREK_PLACES_ENABLED=${TREK_PLACES_ENABLED:-false}
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

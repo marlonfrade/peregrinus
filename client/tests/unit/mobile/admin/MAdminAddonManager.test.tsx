@@ -10,6 +10,7 @@ import { useSettingsStore } from '../../../../src/store/settingsStore';
 import { useAddonStore } from '../../../../src/store/addonStore';
 import { ToastContainer } from '../../../../src/components/shared/Toast';
 import MAdminAddonManager from '../../../../src/mobile/screens/admin/MAdminAddonManager';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 interface AddonFixture {
   id: string;
@@ -89,14 +90,14 @@ describe('MAdminAddonManager', () => {
 
     await screen.findByText('No addons available');
     expect(screen.getByText('Addons')).toBeInTheDocument();
-    expect(screen.getByAltText('TREK')).toHaveAttribute('src', '/text-dark.svg');
+    expect(screen.getByAltText(BRAND.name)).toHaveAttribute('src', '/text-dark.svg');
   });
 
   it('FE-MOB-AADD-003: dark mode and auto+prefers-dark swap the wordmark', async () => {
     seedStore(useSettingsStore, { settings: buildSettings({ dark_mode: 'dark' }) });
     const { unmount } = render(<MAdminAddonManager />);
     await screen.findByText('No addons available');
-    expect(screen.getByAltText('TREK')).toHaveAttribute('src', '/text-light.svg');
+    expect(screen.getByAltText(BRAND.name)).toHaveAttribute('src', '/text-light.svg');
     unmount();
 
     const matchMedia = vi.fn().mockReturnValue({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() });
@@ -104,7 +105,7 @@ describe('MAdminAddonManager', () => {
     seedStore(useSettingsStore, { settings: buildSettings({ dark_mode: 'auto' }) });
     render(<MAdminAddonManager />);
     await screen.findByText('No addons available');
-    expect(screen.getByAltText('TREK')).toHaveAttribute('src', '/text-light.svg');
+    expect(screen.getByAltText(BRAND.name)).toHaveAttribute('src', '/text-light.svg');
     expect(matchMedia).toHaveBeenCalledWith('(prefers-color-scheme: dark)');
     vi.unstubAllGlobals();
   });

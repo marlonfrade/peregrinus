@@ -6,6 +6,7 @@ import { render, screen, waitFor } from '../../../helpers/render';
 import { server } from '../../../helpers/msw/server';
 import { resetAllStores } from '../../../helpers/store';
 import MAdminGitHubPanel from '../../../../src/mobile/screens/admin/MAdminGitHubPanel';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 interface ReleaseOverrides {
   id?: number;
@@ -70,7 +71,7 @@ describe('MAdminGitHubPanel', () => {
     expect(screen.getByText('Report a Bug')).toBeInTheDocument();
     expect(screen.getByText('Feature Request')).toBeInTheDocument();
     expect(screen.getByText('Wiki').closest('a')).toHaveAttribute('href', 'https://github.com/mauriceboe/TREK/wiki');
-    expect(screen.getAllByText('Helps me keep building TREK')).toHaveLength(2);
+    expect(screen.getAllByText('Helps me keep building Peregrinus')).toHaveLength(2);
   });
 
   it('FE-MOB-AGH-002: shows a spinner while the releases request is in flight', () => {
@@ -102,10 +103,10 @@ describe('MAdminGitHubPanel', () => {
     await renderPanel();
 
     expect(screen.getByText('Release History')).toBeInTheDocument();
-    expect(screen.getByText('Latest updates from mauriceboe/TREK')).toBeInTheDocument();
+    expect(screen.getByText(`Latest updates from ${BRAND.repoSlug}`)).toBeInTheDocument();
     expect(screen.getByText('GitHub').closest('a')).toHaveAttribute(
       'href',
-      'https://github.com/mauriceboe/TREK/releases',
+      `${BRAND.repoUrl}/releases`,
     );
   });
 

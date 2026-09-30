@@ -70,3 +70,8 @@ minio-licence.key
 
 .run
 .full-review
+
+# peregrinus: local run
+/data/
+/uploads/
+.superpowers/

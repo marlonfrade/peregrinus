@@ -1,0 +1,8 @@
+{
+  "name": "peregrinus-brand-tools",
+  "private": true,
+  "type": "module",
+  "description": "peregrinus: regenerates brand SVGs in client/public from shared/src/brand. Not a workspace.",
+  "scripts": { "build": "node build-assets.mjs" },
+  "dependencies": { "opentype.js": "^1.3.4" }
+}

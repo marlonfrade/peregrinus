@@ -28,6 +28,7 @@ import MSettingsNotifications from './MSettingsNotifications'
 import MSettingsIntegrations from './MSettingsIntegrations'
 import MSettingsAccount from './MSettingsAccount'
 import MSettingsAbout from './MSettingsAbout'
+import { BRAND } from '@trek/shared'
 
 interface SectionTab {
   id: string
@@ -128,7 +129,7 @@ export default function MSettings() {
       {managed && appVersion && (
         <p className="mt-8 text-center text-caption text-m-muted">
           <a
-            href="https://github.com/liketrek/TREK"
+            href={BRAND.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline"

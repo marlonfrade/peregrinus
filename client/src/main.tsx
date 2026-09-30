@@ -18,6 +18,11 @@ import '@fontsource/museomoderno/800.css'
 import '@fontsource/geist-sans/400.css'
 import '@fontsource/geist-sans/500.css'
 import '@fontsource/geist-sans/600.css'
+// peregrinus: brand typeface
+import '@fontsource/familjen-grotesk/400.css'
+import '@fontsource/familjen-grotesk/500.css'
+import '@fontsource/familjen-grotesk/600.css'
+import '@fontsource/familjen-grotesk/700.css'
 // Leaflet CSS bundled from node_modules instead of unpkg: the service worker
 // cached the CDN stylesheet as an opaque response, which the browser then
 // rejected, breaking the Atlas/trip maps (#1497). Bundling keeps it same-origin
@@ -25,6 +30,7 @@ import '@fontsource/geist-sans/600.css'
 // several .leaflet-* styles.
 import 'leaflet/dist/leaflet.css'
 import './index.css'
+import './brand/peregrinus.css' // peregrinus: brand theme (must follow index.css)
 // Native HTML5 drag-and-drop never fires on touch input, so the planner's place /
 // day reordering was dead on Android and iOS. The `drag-drop-touch` polyfill synthesises
 // the standard drag events from touch gestures over draggable elements (#1265). It is

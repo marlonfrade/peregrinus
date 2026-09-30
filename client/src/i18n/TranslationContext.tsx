@@ -9,8 +9,23 @@ import {
   isRtlLanguage,
   escapeHtml,
   sanitizeInlineHtml,
+  applyBrandToStrings,
 } from '@trek/shared'
 import type { TranslationStrings } from '@trek/shared/i18n'
+
+// peregrinus: locale tables are branded once when loaded, never per t() call,
+// so interpolated user values are never rewritten. Cached per source table so
+// re-loading the table already shown keeps the same object (and a stable t()).
+const brandedTables = new WeakMap<TranslationStrings, TranslationStrings>()
+function brandTable(table: TranslationStrings): TranslationStrings {
+  let branded = brandedTables.get(table)
+  if (!branded) {
+    branded = applyBrandToStrings(table)
+    brandedTables.set(table, branded)
+  }
+  return branded
+}
+const brandedEn = brandTable(en)
 
 export { SUPPORTED_LANGUAGES }
 
@@ -106,7 +121,7 @@ interface TranslationProviderProps {
 
 export function TranslationProvider({ children }: TranslationProviderProps) {
   const language = useSettingsStore((s) => s.settings.language) || 'en'
-  const [strings, setStrings] = useState<TranslationStrings>(en)
+  const [strings, setStrings] = useState<TranslationStrings>(brandedEn)
 
   useEffect(() => {
     document.documentElement.lang = language
@@ -119,7 +134,7 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
 
     let cancelled = false
     loader().then(mod => {
-      if (!cancelled) setStrings(mod.default)
+      if (!cancelled) setStrings(brandTable(mod.default))
     }).catch(err => {
       // The locale chunk can be gone after a deploy. Keep the strings we have —
       // an untranslated UI beats an unhandled rejection and a blank screen.
@@ -130,7 +145,7 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
 
   const value = useMemo((): TranslationContextValue => {
     function t(key: string, params?: Record<string, string | number>): string {
-      let val: string = (strings[key] ?? en[key] ?? key) as string
+      let val: string = (strings[key] ?? brandedEn[key] ?? key) as string
       if (params) {
         Object.entries(params).forEach(([k, v]) => {
           // Function replacement: a value carrying `$&` or `$1` (a trip named
@@ -142,7 +157,7 @@ export function TranslationProvider({ children }: TranslationProviderProps) {
     }
 
     function tHtml(key: string, params?: Record<string, string | number>): string {
-      let val: string = (strings[key] ?? en[key] ?? key) as string
+      let val: string = (strings[key] ?? brandedEn[key] ?? key) as string
       if (params) {
         Object.entries(params).forEach(([k, v]) => {
           // Escape BEFORE substitution so a user-controlled value with `<` or

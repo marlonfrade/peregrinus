@@ -8,6 +8,7 @@ import { useInAppNotificationStore } from '../../../../src/store/inAppNotificati
 import { usePluginStore } from '../../../../src/store/pluginStore';
 import type { TripCardBadge } from '../../../../src/api/client';
 import type { DashboardTrip } from '../../../../src/pages/dashboard/dashboardModel';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 // FE-MOB-DASH-001 onwards
 
@@ -454,7 +455,7 @@ describe('MDashboard', () => {
     window.scrollTo = scrollTo as unknown as typeof window.scrollTo;
     render(<MDashboard />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'TREK' }));
+    fireEvent.click(screen.getByRole('button', { name: BRAND.name }));
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' });
     window.scrollTo = original;

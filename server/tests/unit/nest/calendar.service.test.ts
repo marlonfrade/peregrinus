@@ -57,6 +57,7 @@ import { CalendarModule } from '../../../src/nest/calendar/calendar.module';
 import { expectRegisteredProvider } from '../../helpers/module-providers';
 import { notificationsStub } from '../../helpers/notifications';
 import { accommodationsOver } from '../../helpers/accommodations-service';
+import { BRAND } from '@trek/shared'; // peregrinus: brand
 
 const dbs = () => new DatabaseService(testDb);
 const budgetSvc = new BudgetService(dbs(), new PermissionsService(dbs()), new ExchangeRatesService(), new RealtimeService());
@@ -658,7 +659,7 @@ describe('exportICS', () => {
 
     const { ics, filename } = svc.exportICS(trip.id);
 
-    expect(ics).toContain('X-WR-CALNAME:TREK Trip');
+    expect(ics).toContain(`X-WR-CALNAME:${BRAND.name} Trip`);
     expect(ics).toContain('SUMMARY:Trip');
     expect(filename).toBe('trek-trip.ics');
   });
@@ -1689,7 +1690,7 @@ describe('serialised output', () => {
     expect(ics).toMatchInlineSnapshot(`
       "BEGIN:VCALENDAR
       VERSION:2.0
-      PRODID:-//TREK//Travel Planner//EN
+      PRODID:-//Peregrinus//Travel Planner//EN
       CALSCALE:GREGORIAN
       METHOD:PUBLISH
       X-WR-CALNAME:Golden Trip

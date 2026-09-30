@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { getAppUrl, readEnv } from '../../app-config';
 import { DatabaseService } from '../database/database.service';
+import { BRAND } from '@trek/shared';
 
 function hostOf(url: string): string | null {
   try {
@@ -114,7 +115,7 @@ export class WebauthnConfigService {
     }
     if (origins.length === 0) return null;
 
-    return { rpID, rpName: 'TREK', origins, explicitOrigins: explicitOrigins.length > 0 };
+    return { rpID, rpName: BRAND.name, origins, explicitOrigins: explicitOrigins.length > 0 };
   }
 
   /** True when a usable RP ID resolves for this deployment (exposed as a pure boolean on app-config). */
