@@ -1,3 +1,5 @@
+// peregrinus: brand notification text
+import { brandNotificationLocale } from '../../brand/notifications';
 import ar from '../ar/externalNotifications';
 import br from '../br/externalNotifications';
 import cs from '../cs/externalNotifications';
@@ -19,7 +21,6 @@ import tr from '../tr/externalNotifications';
 import uk from '../uk/externalNotifications';
 import zhTW from '../zh-TW/externalNotifications';
 import zh from '../zh/externalNotifications';
-import { brandNotificationLocale } from '../../brand/notifications'; // peregrinus: brand notification text
 import type {
   NotificationLocale,
   EmailStrings,
@@ -57,9 +58,7 @@ const LOCALES = {
 // peregrinus: every locale passes through the brand layer once, at module load
 const BRANDED = Object.entries(LOCALES).map(([k, v]) => [k, brandNotificationLocale(v)] as const);
 
-export const EMAIL_I18N: Record<string, EmailStrings> = Object.fromEntries(
-  BRANDED.map(([k, v]) => [k, v.email]),
-);
+export const EMAIL_I18N: Record<string, EmailStrings> = Object.fromEntries(BRANDED.map(([k, v]) => [k, v.email]));
 
 export const EVENT_TEXTS: Record<string, Record<NotificationEventKey, EventTextFn>> = Object.fromEntries(
   BRANDED.map(([k, v]) => [k, v.events]),
